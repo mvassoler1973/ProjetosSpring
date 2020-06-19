@@ -9,18 +9,18 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
-import com.br.mvassoler.food.domain.model.ItemIngrediente;
+import com.br.mvassoler.food.domain.model.PedidoItem;
 
 @Repository
 @Transactional
-public class ItemDao {
+public class PedidoDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public List<ItemIngrediente> getAllIngredienteByIdItem(Long id) {
-		String jpql = "from ItemIngrediente ing where ing.item.id = :id";
-		TypedQuery<ItemIngrediente> query = entityManager.createQuery(jpql, ItemIngrediente.class);
+	public List<PedidoItem> getAllIItemByIdPedido(Long id) {
+		String jpql = "from PedidoItem ite where ite.pedido.id = :id";
+		TypedQuery<PedidoItem> query = entityManager.createQuery(jpql, PedidoItem.class);
 		query.setParameter("id", id);
 		return query.getResultList();
 	}

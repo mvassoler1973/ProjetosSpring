@@ -13,8 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "promocao_item")
@@ -30,11 +29,11 @@ public class PromocaoItem {
 	@Column(name = "valorPromocao", precision = 11, scale = 2, nullable = false)
 	private BigDecimal valorPromocao;
 
-	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	@Column(name = "data_inicial", nullable = false)
 	private LocalDate dataInicio;
 
-	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	@Column(name = "data_final", nullable = false)
 	private LocalDate dataFim;
 

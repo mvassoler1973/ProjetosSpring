@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,10 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 import com.br.mvassoler.food.domain.enumeradores.PedidoStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -36,9 +33,9 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:MM:SS")
-	@Column(name = "data_hora", nullable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:MM:SS")
 	@JsonProperty(access = Access.READ_ONLY)
+	@Column(name = "data_hora", nullable = false)
 	private LocalDateTime dataHora;
 
 	@Column(name = "tipo_pagamento", length = 50, nullable = false)
@@ -48,11 +45,11 @@ public class Pedido implements Serializable {
 	private BigDecimal valorFinal;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "status", length = 20)
 	@JsonProperty(access = Access.READ_ONLY)
+	@Column(name = "status", length = 20)
 	private PedidoStatus status;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_cliente", nullable = false)
 	private Cliente cliente;
 
@@ -105,6 +102,14 @@ public class Pedido implements Serializable {
 
 	public void setPedidoItens(List<PedidoItem> pedidoItens) {
 		this.pedidoItens = pedidoItens;
+	}
+
+	public PedidoStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(PedidoStatus status) {
+		this.status = status;
 	}
 
 	@Override

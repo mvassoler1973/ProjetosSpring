@@ -3,7 +3,6 @@ package com.br.mvassoler.food.domain.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,7 +38,7 @@ public class ItemIngrediente implements Serializable {
 	@JoinColumn(name = "id_ingrediente", nullable = false)
 	private Ingrediente ingrediente;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_item", nullable = false)
 	@JsonIgnore
 	private Item item;
