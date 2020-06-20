@@ -18,11 +18,8 @@ import com.br.mvassoler.food.domain.model.Item;
 import com.br.mvassoler.food.domain.model.Pedido;
 import com.br.mvassoler.food.domain.model.PedidoItem;
 import com.br.mvassoler.food.domain.model.PromocaoItem;
-import com.br.mvassoler.food.domain.repository.IngredienteRepository;
-import com.br.mvassoler.food.domain.repository.ItemRepository;
 import com.br.mvassoler.food.domain.repository.PedidoItemRepository;
 import com.br.mvassoler.food.domain.repository.PedidoRepository;
-import com.br.mvassoler.food.domain.repository.PromocaoItemRepository;
 import com.br.mvassoler.food.dto.PedidoInDto;
 import com.br.mvassoler.food.dto.PedidoItemDto;
 import com.br.mvassoler.food.dto.PedidoOutDto;
@@ -35,15 +32,6 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 
 	@Autowired
 	private PedidoItemRepository pedidoItemRepository;
-
-	@Autowired
-	private PromocaoItemRepository promocaoItemRepository;
-
-	@Autowired
-	private ItemRepository itemRepository;
-
-	@Autowired
-	private IngredienteRepository ingredienteRepository;
 
 	@Autowired
 	private PedidoDao pedidoDao;
@@ -168,7 +156,7 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 		return pedidoItensDto;
 	}
 
-	// processos para calculo dos descontos das promocoes
+	// processo para calculo dos descontos das promocoes
 	public BigDecimal calcularDescontoPromocaoItem(List<PedidoItem> pedidoItem) {
 		BigDecimal valorDescontoPromocao = BigDecimal.ZERO;
 		Map<Item, BigDecimal> lista = pedidoItem.stream().collect(Collectors.groupingBy(PedidoItem::getItem,
