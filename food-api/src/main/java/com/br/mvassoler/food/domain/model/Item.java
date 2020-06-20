@@ -1,7 +1,6 @@
 package com.br.mvassoler.food.domain.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "item")
@@ -28,27 +26,10 @@ public class Item implements Serializable {
 	@Column(name = "descricao", length = 100, nullable = false)
 	private String descricao;
 
-	@Column(name = "tipo_unidade", length = 100, nullable = false)
 	@NotBlank
+	@Column(name = "tipo_unidade", length = 100, nullable = false)
 	private String tipoUnidade;
 
-	@Column(name = "quantidade", precision = 9, scale = 3, nullable = false)
-	@NotNull
-	private BigDecimal quantidade;
-
-	@Column(name = "preco_unitario", precision = 11, scale = 2, nullable = false)
-	@NotNull
-	private BigDecimal precoUnitario;
-
-	@Column(name = "preco_total", precision = 11, scale = 2, nullable = false)
-	@NotNull
-	private BigDecimal precoTotal;
-
-	@Column(name = "valor_desconto", precision = 11, scale = 2, nullable = false)
-	@NotNull
-	private BigDecimal valorDesconto;
-
-	// @OneToMany(mappedBy = "item", fetch = FetchType.EAGER)
 	@Transient
 	private List<ItemIngrediente> itemIngredientes;
 
@@ -74,38 +55,6 @@ public class Item implements Serializable {
 
 	public void setTipoUnidade(String tipoUnidade) {
 		this.tipoUnidade = tipoUnidade;
-	}
-
-	public BigDecimal getQuantidade() {
-		return quantidade;
-	}
-
-	public void setQuantidade(BigDecimal quantidade) {
-		this.quantidade = quantidade;
-	}
-
-	public BigDecimal getPrecoUnitario() {
-		return precoUnitario;
-	}
-
-	public void setPrecoUnitario(BigDecimal precoUnitario) {
-		this.precoUnitario = precoUnitario;
-	}
-
-	public BigDecimal getPrecoTotal() {
-		return precoTotal;
-	}
-
-	public void setPrecoTotal(BigDecimal precoTotal) {
-		this.precoTotal = precoTotal;
-	}
-
-	public BigDecimal getValorDesconto() {
-		return valorDesconto;
-	}
-
-	public void setValorDesconto(BigDecimal valorDesconto) {
-		this.valorDesconto = valorDesconto;
 	}
 
 	public List<ItemIngrediente> getItemIngredientes() {
@@ -148,8 +97,7 @@ public class Item implements Serializable {
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", descricao=" + descricao + ", tipoUnidade=" + tipoUnidade + ", quantidade="
-				+ quantidade + ", precoUnitario=" + precoUnitario + ", precoTotal=" + precoTotal + ", valorDesconto="
-				+ valorDesconto + ", itemIngredientes=" + "]";
+				+ ", precoUnitario=" + ", precoTotal=" + ", valorDesconto=" + ", itemIngredientes=" + "]";
 	}
 
 }

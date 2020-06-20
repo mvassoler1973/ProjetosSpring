@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -23,19 +24,23 @@ public class PromocaoItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
 	@Column(name = "quantidade", precision = 9, scale = 3, nullable = false)
 	private BigDecimal quantidade;
 
+	@NotNull
 	@Column(name = "valorPromocao", precision = 11, scale = 2, nullable = false)
 	private BigDecimal valorPromocao;
 
+	@NotNull
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	@Column(name = "data_inicial", nullable = false)
 	private LocalDate dataInicio;
 
+	@NotNull
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	@Column(name = "data_final", nullable = false)
-	private LocalDate dataFim;
+	private LocalDate dataFinal;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_item", nullable = false)
@@ -73,12 +78,12 @@ public class PromocaoItem {
 		this.dataInicio = dataInicio;
 	}
 
-	public LocalDate getDataFim() {
-		return dataFim;
+	public LocalDate getDataFinal() {
+		return dataFinal;
 	}
 
-	public void setDataFim(LocalDate dataFim) {
-		this.dataFim = dataFim;
+	public void setDataFim(LocalDate dataFinal) {
+		this.dataFinal = dataFinal;
 	}
 
 	public Item getItem() {
@@ -117,7 +122,7 @@ public class PromocaoItem {
 	@Override
 	public String toString() {
 		return "PromocaoItem [id=" + id + ", quantidade=" + quantidade + ", valorPromocao=" + valorPromocao
-				+ ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", item=" + item + "]";
+				+ ", dataInicio=" + dataInicio + ", dataFinal=" + dataFinal + ", item=" + item + "]";
 	}
 
 }

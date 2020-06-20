@@ -26,13 +26,9 @@ public class ItemIngrediente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
 	@Column(name = "quantidade", precision = 9, scale = 3, nullable = false)
-	@NotNull
 	private BigDecimal quantidade;
-
-	@Column(name = "preco_unitario", precision = 11, scale = 2, nullable = false)
-	@NotNull
-	private BigDecimal precoUnitario;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_ingrediente", nullable = false)
@@ -57,14 +53,6 @@ public class ItemIngrediente implements Serializable {
 
 	public void setQuantidade(BigDecimal quantidade) {
 		this.quantidade = quantidade;
-	}
-
-	public BigDecimal getPrecoUnitario() {
-		return precoUnitario;
-	}
-
-	public void setPrecoUnitario(BigDecimal precoUnitario) {
-		this.precoUnitario = precoUnitario;
 	}
 
 	public Ingrediente getIngrediente() {
@@ -110,8 +98,8 @@ public class ItemIngrediente implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ItemIngrediente [id=" + id + ", quantidade=" + quantidade + ", precoUnitario=" + precoUnitario
-				+ ", ingrediente=" + ingrediente + ", item=" + item + "]";
+		return "ItemIngrediente [id=" + id + ", quantidade=" + quantidade + ", precoUnitario=" + ", ingrediente="
+				+ ingrediente + ", item=" + item + "]";
 	}
 
 }

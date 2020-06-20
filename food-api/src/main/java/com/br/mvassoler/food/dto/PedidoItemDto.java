@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 public class PedidoItemDto {
 
 	private Long id;
+	private BigDecimal quantidade;
+	private BigDecimal precounitario;
 	private BigDecimal precoTotal;
 	private BigDecimal valorDesconto;
 	private BigDecimal precoLiquido;
@@ -17,6 +19,22 @@ public class PedidoItemDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public BigDecimal getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public BigDecimal getPrecounitario() {
+		return precounitario;
+	}
+
+	public void setPrecounitario(BigDecimal precounitario) {
+		this.precounitario = precounitario;
 	}
 
 	public BigDecimal getPrecoTotal() {

@@ -1,8 +1,10 @@
 package com.br.mvassoler.food.domain.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -10,9 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.br.mvassoler.food.domain.dao.PedidoDao;
+import com.br.mvassoler.food.domain.dao.PromocaoItemDao;
 import com.br.mvassoler.food.domain.enumeradores.PedidoStatus;
+import com.br.mvassoler.food.domain.model.Item;
 import com.br.mvassoler.food.domain.model.Pedido;
 import com.br.mvassoler.food.domain.model.PedidoItem;
+import com.br.mvassoler.food.domain.model.PromocaoItem;
+import com.br.mvassoler.food.domain.repository.IngredienteRepository;
+import com.br.mvassoler.food.domain.repository.ItemRepository;
 import com.br.mvassoler.food.domain.repository.PedidoItemRepository;
 import com.br.mvassoler.food.domain.repository.PedidoRepository;
 import com.br.mvassoler.food.domain.repository.PromocaoIngredienteRepository;
@@ -36,7 +43,16 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 	private PromocaoItemRepository promocaoItemRepository;
 
 	@Autowired
+	private ItemRepository itemRepository;
+
+	@Autowired
+	private IngredienteRepository ingredienteRepository;
+
+	@Autowired
 	private PedidoDao pedidoDao;
+
+	@Autowired
+	private PromocaoItemDao promocaoItemDao;
 
 	@Autowired
 	private ItemService itemService;
@@ -108,8 +124,9 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 
 	public BigDecimal calcularValorTotal(List<PedidoItem> pedidoItens) {
 		BigDecimal valorTotal = BigDecimal.ZERO;
-		pedidoItens.forEach(
-				pedidoItem -> valorTotal.add(pedidoItem.getPrecoTotal().subtract(pedidoItem.getValorDesconto())));
+		for (PedidoItem item : pedidoItens) {
+			valorTotal = valorTotal.add(item.getPrecoTotal().subtract(item.getValorDesconto()));
+		}
 		return valorTotal;
 	}
 
@@ -149,5 +166,21 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 	}
 
 	// processos para calculo dos descontos das promocoes
+	public BigDecimal calcularDescontoPromocaoItem(List<PedidoItem> pedidoItem) {
+		BigDecimal valorDescontoPromocao = BigDecimal.ZERO;
+		Map<Long, BigDecimal> lista = pedidoItem.stream().collect(Collectors.groupingBy(PedidoItem::getId,
+				Collectors.reducing(BigDecimal.ZERO, PedidoItem::getQuantidade, BigDecimal::add)));
+		for (Map.Entry<Long, BigDecimal> saida : lista.entrySet()) {
+			Item item = this.itemRepository.findById(saida.getKey().longValue());
+			if (item != null) {
+				PromocaoItem promocaoItem = this.promocaoItemDao
+						.getPromocaoIngredienteByIngredienteDataFinalValidade(item, LocalDate.now());
+				if ((saida.getValue().longValue() / promocaoItem.getQuantidade().longValue()) >= 1) {
+					valorDescontoPromocao = valorDescontoPromocao.add(promocaoItem.getValorPromocao());
+				}
+			}
+		}
+		return valorDescontoPromocao;
+	}
 
 }

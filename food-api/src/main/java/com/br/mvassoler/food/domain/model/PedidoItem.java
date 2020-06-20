@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,12 +26,23 @@ public class PedidoItem implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
+	@Column(name = "quantidade", precision = 11, scale = 2, nullable = false)
+	private BigDecimal quantidade;
+
+	@NotNull
+	@Column(name = "preco_unitario", precision = 11, scale = 2, nullable = false)
+	private BigDecimal precounitario;
+
+	@NotNull
 	@Column(name = "preco_total", precision = 11, scale = 2, nullable = false)
 	private BigDecimal precoTotal;
 
+	@NotNull
 	@Column(name = "valor_desconto", precision = 11, scale = 2, nullable = false)
 	private BigDecimal valorDesconto;
 
+	@NotNull
 	@Column(name = "preco_liquido", precision = 11, scale = 2, nullable = false)
 	private BigDecimal precoLiquido;
 
@@ -50,6 +62,22 @@ public class PedidoItem implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public BigDecimal getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public BigDecimal getPrecounitario() {
+		return precounitario;
+	}
+
+	public void setPrecounitario(BigDecimal precounitario) {
+		this.precounitario = precounitario;
 	}
 
 	public BigDecimal getPrecoTotal() {
@@ -119,8 +147,9 @@ public class PedidoItem implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PedidoItem [id=" + id + ", precoTotal=" + precoTotal + ", valorDesconto=" + valorDesconto
-				+ ", precoLiquido=" + precoLiquido + ", pedido=" + pedido + ", item=" + item + "]";
+		return "PedidoItem [id=" + id + ", quantidade=" + quantidade + ", precounitario=" + precounitario
+				+ ", precoTotal=" + precoTotal + ", valorDesconto=" + valorDesconto + ", precoLiquido=" + precoLiquido
+				+ ", pedido=" + pedido + ", item=" + item + "]";
 	}
 
 }

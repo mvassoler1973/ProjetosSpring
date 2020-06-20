@@ -1,6 +1,5 @@
 package com.br.mvassoler.food.domain.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +40,6 @@ public class ItemService implements ServiceGeneric<Item, Long> {
 			throw new ApiFoodExceptionPadrao("Item com a descricao -> " + entity.getDescricao()
 					+ " <- encontrado no Banco de Dados. Alterar a descrição.");
 		}
-		entity.setPrecoUnitario(this.calcularPrecoUnitario(entity));
-		entity.setPrecoTotal(this.calcularPrecoTotal(entity));
 		this.itemRepository.save(entity);
 		for (ItemIngrediente ingrediente : entity.getItemIngredientes()) {
 			ingrediente.setItem(entity);
@@ -53,8 +50,7 @@ public class ItemService implements ServiceGeneric<Item, Long> {
 
 	@Override
 	public Item atualizar(Item entity) {
-		entity.setPrecoUnitario(this.calcularPrecoUnitario(entity));
-		entity.setPrecoTotal(this.calcularPrecoTotal(entity));
+
 		this.itemRepository.save(entity);
 		this.itemIngredienteRepository.saveAll(entity.getItemIngredientes());
 		return this.itemRepository.save(entity);
@@ -81,20 +77,6 @@ public class ItemService implements ServiceGeneric<Item, Long> {
 			item.setItemIngredientes(this.itemDao.getAllIngredienteByIdItem(item.getId()));
 		}
 		return itens;
-	}
-
-	public BigDecimal calcularPrecoUnitario(Item item) {
-		BigDecimal total = BigDecimal.ZERO;
-		for (ItemIngrediente ingrediente : item.getItemIngredientes()) {
-			total = total.add(ingrediente.getPrecoUnitario().multiply(ingrediente.getQuantidade()));
-		}
-		return total;
-	}
-
-	public BigDecimal calcularPrecoTotal(Item item) {
-		BigDecimal total = BigDecimal.ZERO;
-		total = item.getPrecoUnitario().multiply(item.getQuantidade());
-		return total;
 	}
 
 	public void recalcularTotaisItem(long id) {
