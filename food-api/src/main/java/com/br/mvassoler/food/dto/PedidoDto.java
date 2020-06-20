@@ -4,14 +4,25 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.br.mvassoler.food.domain.enumeradores.PedidoStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 public class PedidoDto {
 
 	private Long id;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:MM:SS")
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDateTime dataHora;
+
 	private String tipoPagamento;
+
 	private BigDecimal valorFinal;
+
+	@JsonProperty(access = Access.READ_ONLY)
 	private PedidoStatus status;
+
 	private ClienteDto cliente;
 
 	public Long getId() {

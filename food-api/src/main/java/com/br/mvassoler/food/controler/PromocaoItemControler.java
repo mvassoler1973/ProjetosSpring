@@ -1,5 +1,7 @@
+
 package com.br.mvassoler.food.controler;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.mvassoler.food.domain.model.PromocaoItem;
 import com.br.mvassoler.food.domain.service.PromocaoItemService;
+import com.br.mvassoler.food.dto.PromocaoItemDto;
 import com.br.mvassoler.food.exceptionhandler.ApiFoodExceptionPadrao;
 
 import io.swagger.annotations.Api;
@@ -53,8 +56,10 @@ public class PromocaoItemControler {
 	@PostMapping("/promocao")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@ApiOperation(value = "Salva uma promocao de item")
-	public PromocaoItem salvaPromocaoItem(@Valid @RequestBody PromocaoItem promocao) {
-		return this.promocaoItemService.salvar(promocao);
+	public PromocaoItemDto salvaPromocaoItem(@Valid @RequestBody PromocaoItemDto promocao) {
+		LocalDate datanow = LocalDate.now();
+		System.out.println(datanow);
+		return this.promocaoItemService.gravarPromocaoItem(promocao);
 	}
 
 	@DeleteMapping("/promocao/{id}")

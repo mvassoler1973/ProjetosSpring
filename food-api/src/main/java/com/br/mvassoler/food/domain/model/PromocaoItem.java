@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -34,11 +37,13 @@ public class PromocaoItem {
 
 	@NotNull
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
 	@Column(name = "data_inicial", nullable = false)
 	private LocalDate dataInicio;
 
 	@NotNull
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
 	@Column(name = "data_final", nullable = false)
 	private LocalDate dataFinal;
 
@@ -82,7 +87,7 @@ public class PromocaoItem {
 		return dataFinal;
 	}
 
-	public void setDataFim(LocalDate dataFinal) {
+	public void setDataFinal(LocalDate dataFinal) {
 		this.dataFinal = dataFinal;
 	}
 
