@@ -22,7 +22,6 @@ import com.br.mvassoler.food.domain.repository.IngredienteRepository;
 import com.br.mvassoler.food.domain.repository.ItemRepository;
 import com.br.mvassoler.food.domain.repository.PedidoItemRepository;
 import com.br.mvassoler.food.domain.repository.PedidoRepository;
-import com.br.mvassoler.food.domain.repository.PromocaoIngredienteRepository;
 import com.br.mvassoler.food.domain.repository.PromocaoItemRepository;
 import com.br.mvassoler.food.dto.PedidoDto;
 import com.br.mvassoler.food.dto.PedidoItemDto;
@@ -35,9 +34,6 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 
 	@Autowired
 	private PedidoItemRepository pedidoItemRepository;
-
-	@Autowired
-	private PromocaoIngredienteRepository promocaoIngredienteRepository;
 
 	@Autowired
 	private PromocaoItemRepository promocaoItemRepository;
