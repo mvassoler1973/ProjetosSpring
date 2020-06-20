@@ -39,13 +39,13 @@ public class ClienteControler {
 		return this.clienteService.getClienteRepository().findAll();
 	}
 
-	@GetMapping("/clientes/{nome}")
+	@GetMapping("/cliente-nome/{nome}")
 	@ApiOperation(value = "Retorno da lista de todos os clientes pelo nome")
 	public List<Cliente> getClienteByNome(@PathVariable(value = "nome") String nome) {
 		return this.clienteService.getClienteRepository().findByNomeContaining(nome);
 	}
 
-	@GetMapping("/clientes/{cep}")
+	@GetMapping("/cliente-cep/{cep}")
 	@ApiOperation(value = "Retorno da lista de todos os clientes pelo CEP")
 	public List<Cliente> getClienteByCep(@PathVariable(value = "cep") Integer cep) {
 		return this.clienteService.getClienteRepository().findByCep(cep);

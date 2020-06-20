@@ -1,5 +1,7 @@
 package com.br.mvassoler.food.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,10 @@ public class IngredienteService implements ServiceGeneric<Ingrediente, Long> {
 	@Override
 	public void excluir(Long id) {
 		this.ingredienteRepository.deleteById(id);
+	}
+
+	public List<Ingrediente> salvarListaIngredientes(List<Ingrediente> ingredientes) {
+		return this.ingredienteRepository.saveAll(ingredientes);
 	}
 
 }

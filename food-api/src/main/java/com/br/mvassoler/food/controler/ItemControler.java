@@ -91,21 +91,29 @@ public class ItemControler {
 		return this.itemService.getItemIngredientesByIdItem(id);
 	}
 
-	@PostMapping("/itemIngrediente")
+	@PostMapping("/itemIngrediente/{id}")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@ApiOperation(value = "Salva um ingrediente de um item")
-	public ItemIngrediente salvaItemIngrediente(@Valid @RequestBody ItemIngrediente ingrediente) {
-		return this.itemService.salvarIngrediente(ingrediente);
+	@ApiOperation(value = "Acrescenta um item-ingrediente para um item pelo ID do item")
+	public ResponseEntity<ItemIngrediente> salvaItemIngrediente(@Valid @PathVariable Long id,
+			@RequestBody ItemIngrediente ingrediente) {
+		if (!this.itemService.getItemRepository().existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		Item item = this.itemService.getItemRepository().findById(id.longValue());
+		ingrediente.setItem(item);
+		this.itemService.salvarIngrediente(ingrediente);
+		return ResponseEntity.ok(ingrediente);
 	}
 
 	@PutMapping("/itemIngrediente/{id}")
-	@ApiOperation(value = "Atualiza um ingrediente de um item")
+	@ApiOperation(value = "Atualiza um item-ingrediente para um item pelo ID do item")
 	public ResponseEntity<ItemIngrediente> atualizaItemIngrediente(@Valid @PathVariable Long id,
 			@RequestBody ItemIngrediente ingrediente) {
-		if (!this.itemService.getItemIngredienteRepository().existsById(id)) {
+		if (!this.itemService.getItemIngredienteRepository().existsById(ingrediente.getId())) {
 			return ResponseEntity.notFound().build();
 		}
-		ingrediente.setId(id);
+		Item item = this.itemService.getItemRepository().findById(id.longValue());
+		ingrediente.setItem(item);
 		ingrediente = this.itemService.atualizarIngrediente(ingrediente);
 		return ResponseEntity.ok(ingrediente);
 	}

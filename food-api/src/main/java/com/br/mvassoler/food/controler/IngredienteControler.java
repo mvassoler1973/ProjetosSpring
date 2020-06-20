@@ -62,6 +62,13 @@ public class IngredienteControler {
 		return this.ingredienteService.salvar(ingrediente);
 	}
 
+	@PostMapping("/ingredientes")
+	@ResponseStatus(value = HttpStatus.CREATED)
+	@ApiOperation(value = "Salva uma lista de ingredientes")
+	public List<Ingrediente> salvaListangredientes(@Valid @RequestBody List<Ingrediente> ingredientes) {
+		return this.ingredienteService.salvarListaIngredientes(ingredientes);
+	}
+
 	@PutMapping("/ingrediente/{id}")
 	@ApiOperation(value = "Atualiza um ingrediente")
 	public ResponseEntity<Ingrediente> atualizaIngrediente(@Valid @PathVariable Long id,

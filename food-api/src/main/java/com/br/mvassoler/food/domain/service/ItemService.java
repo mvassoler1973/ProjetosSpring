@@ -50,10 +50,12 @@ public class ItemService implements ServiceGeneric<Item, Long> {
 
 	@Override
 	public Item atualizar(Item entity) {
-
 		this.itemRepository.save(entity);
+		for (ItemIngrediente ingrediente : entity.getItemIngredientes()) {
+			ingrediente.setItem(entity);
+		}
 		this.itemIngredienteRepository.saveAll(entity.getItemIngredientes());
-		return this.itemRepository.save(entity);
+		return entity;
 	}
 
 	@Override
