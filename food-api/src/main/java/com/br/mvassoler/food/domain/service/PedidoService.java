@@ -23,8 +23,9 @@ import com.br.mvassoler.food.domain.repository.ItemRepository;
 import com.br.mvassoler.food.domain.repository.PedidoItemRepository;
 import com.br.mvassoler.food.domain.repository.PedidoRepository;
 import com.br.mvassoler.food.domain.repository.PromocaoItemRepository;
-import com.br.mvassoler.food.dto.PedidoDto;
+import com.br.mvassoler.food.dto.PedidoInDto;
 import com.br.mvassoler.food.dto.PedidoItemDto;
+import com.br.mvassoler.food.dto.PedidoOutDto;
 
 @Service
 public class PedidoService implements ServiceGeneric<Pedido, Long> {
@@ -79,6 +80,16 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 		this.pedidoRepository.deleteById(id);
 	}
 
+	public PedidoOutDto openPedido(PedidoInDto pedidoIntDto) {
+		Pedido pedido = this.toModelByPedidoIn(pedidoIntDto);
+		pedido.setDataHora(LocalDateTime.now());
+		pedido.setStatus(PedidoStatus.ABERTO);
+		pedido.setValorFinal(BigDecimal.ZERO);
+		this.pedidoRepository.save(pedido);
+		PedidoOutDto pedidoOutDto = this.toPedidoByModel(pedido);
+		return pedidoOutDto;
+	}
+
 	public List<Pedido> getAllPedidos() {
 		List<Pedido> pedidos = this.pedidoRepository.findAll();
 		for (Pedido pedido : pedidos) {
@@ -88,27 +99,23 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 		return pedidos;
 	}
 
-	private Pedido toModelByPedido(PedidoDto pedidoDto) {
-		return this.modelMapper.map(pedidoDto, Pedido.class);
+	private Pedido toModelByPedido(PedidoOutDto pedidoOutDto) {
+		return this.modelMapper.map(pedidoOutDto, Pedido.class);
 	}
 
-	private PedidoDto toPedidoByModel(Pedido pedido) {
-		return this.modelMapper.map(pedido, PedidoDto.class);
+	private PedidoOutDto toPedidoByModel(Pedido pedido) {
+		return this.modelMapper.map(pedido, PedidoOutDto.class);
 	}
 
-	public PedidoDto openPedido(PedidoDto pedidoDto) {
-		Pedido pedido = this.toModelByPedido(pedidoDto);
-		pedido.setDataHora(LocalDateTime.now());
-		pedido.setStatus(PedidoStatus.ABERTO);
-		pedido.setValorFinal(BigDecimal.ZERO);
-		this.pedidoRepository.save(pedido);
-		pedidoDto = this.toPedidoByModel(pedido);
-		return pedidoDto;
+	private Pedido toModelByPedidoIn(PedidoInDto pedidoinDto) {
+		return this.modelMapper.map(pedidoinDto, Pedido.class);
 	}
 
 	public Pedido getPreviewPedido(Pedido pedido) {
 		pedido.setValorFinal(this.calcularValorTotal(pedido.getPedidoItens()));
-		// calcular desconto por item - se zero - calcular desconto por ingredinte
+		pedido.setValorPromocao(this.calcularDescontoPromocaoItem(pedido.getPedidoItens()));
+		pedido.setValorFinal(pedido.getValorFinal().subtract(pedido.getValorPromocao()));
+		this.pedidoRepository.save(pedido);
 		return pedido;
 	}
 
@@ -164,15 +171,17 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 	// processos para calculo dos descontos das promocoes
 	public BigDecimal calcularDescontoPromocaoItem(List<PedidoItem> pedidoItem) {
 		BigDecimal valorDescontoPromocao = BigDecimal.ZERO;
-		Map<Long, BigDecimal> lista = pedidoItem.stream().collect(Collectors.groupingBy(PedidoItem::getId,
+		Map<Item, BigDecimal> lista = pedidoItem.stream().collect(Collectors.groupingBy(PedidoItem::getItem,
 				Collectors.reducing(BigDecimal.ZERO, PedidoItem::getQuantidade, BigDecimal::add)));
-		for (Map.Entry<Long, BigDecimal> saida : lista.entrySet()) {
-			Item item = this.itemRepository.findById(saida.getKey().longValue());
+		for (Map.Entry<Item, BigDecimal> saida : lista.entrySet()) {
+			Item item = saida.getKey();
 			if (item != null) {
 				PromocaoItem promocaoItem = this.promocaoItemDao
 						.getPromocaoIngredienteByIngredienteDataFinalValidade(item, LocalDate.now());
-				if ((saida.getValue().longValue() / promocaoItem.getQuantidade().longValue()) >= 1) {
-					valorDescontoPromocao = valorDescontoPromocao.add(promocaoItem.getValorPromocao());
+				if (promocaoItem != null) {
+					if ((saida.getValue().longValue() / promocaoItem.getQuantidade().longValue()) >= 1) {
+						valorDescontoPromocao = valorDescontoPromocao.add(promocaoItem.getValorPromocao());
+					}
 				}
 			}
 		}

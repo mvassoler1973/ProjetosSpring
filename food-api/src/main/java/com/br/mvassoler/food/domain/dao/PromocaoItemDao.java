@@ -22,7 +22,7 @@ public class PromocaoItemDao {
 
 	public PromocaoItem getPromocaoIngredienteByIngredienteDataFinalValidade(Item item, LocalDate dataFinalValidade) {
 		Long id = item.getId();
-		String jpql = "from PromocaoItem pro where pro.item.id = :id and pro.dataFinal <= :dataFinalValidade order by pro.valorPromocao desc";
+		String jpql = "from PromocaoItem pro where pro.item.id = :id and pro.dataFinal >= :dataFinalValidade order by pro.valorPromocao desc";
 		TypedQuery<PromocaoItem> query = entityManager.createQuery(jpql, PromocaoItem.class);
 		query.setParameter("id", id);
 		query.setParameter("dataFinalValidade", dataFinalValidade);

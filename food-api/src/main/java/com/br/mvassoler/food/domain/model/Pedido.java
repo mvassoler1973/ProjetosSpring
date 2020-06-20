@@ -44,6 +44,9 @@ public class Pedido implements Serializable {
 	@Column(name = "valor_final", precision = 11, scale = 2, nullable = false)
 	private BigDecimal valorFinal;
 
+	@Column(name = "valor_promocao", precision = 11, scale = 2)
+	private BigDecimal valorPromocao;
+
 	@Enumerated(EnumType.STRING)
 	@JsonProperty(access = Access.READ_ONLY)
 	@Column(name = "status", length = 20)
@@ -86,6 +89,14 @@ public class Pedido implements Serializable {
 
 	public void setValorFinal(BigDecimal valorFinal) {
 		this.valorFinal = valorFinal;
+	}
+
+	public BigDecimal getValorPromocao() {
+		return valorPromocao;
+	}
+
+	public void setValorPromocao(BigDecimal valorPromocao) {
+		this.valorPromocao = valorPromocao;
 	}
 
 	public Cliente getCliente() {

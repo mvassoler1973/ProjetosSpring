@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.mvassoler.food.domain.enumeradores.PedidoStatus;
 import com.br.mvassoler.food.domain.model.Pedido;
 import com.br.mvassoler.food.domain.service.PedidoService;
-import com.br.mvassoler.food.dto.PedidoDto;
+import com.br.mvassoler.food.dto.PedidoInDto;
 import com.br.mvassoler.food.dto.PedidoItemDto;
+import com.br.mvassoler.food.dto.PedidoOutDto;
 import com.br.mvassoler.food.exceptionhandler.ApiFoodExceptionPadrao;
 
 import io.swagger.annotations.Api;
@@ -71,8 +72,8 @@ public class PedidoControler {
 	@PostMapping("/pedido")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@ApiOperation(value = "Abrir um novo pedido")
-	public PedidoDto abrirPedido(@Valid @RequestBody PedidoDto pedidoDto) {
-		return this.pedidoService.openPedido(pedidoDto);
+	public PedidoOutDto abrirPedido(@Valid @RequestBody PedidoInDto pedidointDto) {
+		return this.pedidoService.openPedido(pedidointDto);
 	}
 
 	@PutMapping("/pedido/{id}")
