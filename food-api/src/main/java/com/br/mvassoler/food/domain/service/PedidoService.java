@@ -168,7 +168,9 @@ public class PedidoService implements ServiceGeneric<Pedido, Long> {
 						.getPromocaoIngredienteByIngredienteDataFinalValidade(item, LocalDate.now());
 				if (promocaoItem != null) {
 					if ((saida.getValue().longValue() / promocaoItem.getQuantidade().longValue()) >= 1) {
-						valorDescontoPromocao = valorDescontoPromocao.add(promocaoItem.getValorPromocao());
+						valorDescontoPromocao = valorDescontoPromocao
+								.add(promocaoItem.getValorPromocao().multiply(new BigDecimal(
+										saida.getValue().longValue() / promocaoItem.getQuantidade().longValue())));
 					}
 				}
 			}
