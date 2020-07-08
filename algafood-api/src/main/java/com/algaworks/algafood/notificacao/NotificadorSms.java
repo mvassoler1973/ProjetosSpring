@@ -4,8 +4,13 @@ import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.model.Cliente;
 
+@TipoDeNotificacao(TipoUrgencia.Normal)
 @Component
 public class NotificadorSms implements Notificador {
+
+	public NotificadorSms() {
+		System.out.println("Notificador sms");
+	}
 
 	@Override
 	public void notificar(Cliente cliente, String mensagem) {
