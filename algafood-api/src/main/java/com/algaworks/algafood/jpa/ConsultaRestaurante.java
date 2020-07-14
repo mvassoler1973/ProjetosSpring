@@ -7,18 +7,18 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
 import com.algaworks.algafood.AlgafoodApiApplication;
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
-public class ConsultaMain {
+public class ConsultaRestaurante {
 
 	public static void main(String[] args) {
 		ApplicationContext context = new SpringApplicationBuilder(AlgafoodApiApplication.class)
 				.web(WebApplicationType.NONE).run(args);
-		CozinhaRepository consulta = context.getBean(CozinhaRepository.class);
-		List<Cozinha> cozinhas = consulta.listar();
-		cozinhas.forEach(c -> System.out.println(c.getId() + " " + c.getNome()));
-
+		RestauranteRepository consulta = context.getBean(RestauranteRepository.class);
+		List<Restaurante> restaurantes = consulta.listar();
+		restaurantes.forEach(r -> System.out.println(
+				"Id = " + r.getId() + " - Nome = " + r.getNome() + " - Cozinha = " + r.getCozinha().getNome()));
 	}
 
 }

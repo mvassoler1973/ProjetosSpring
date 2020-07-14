@@ -13,10 +13,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "cozinha")
+@Table(name = "permissao")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cozinha implements Serializable {
+public class Permissao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,4 +28,6 @@ public class Cozinha implements Serializable {
 	@Column(name = "nome")
 	private String nome;
 
+	@Column(name = "descricao")
+	private String descricao;
 }
