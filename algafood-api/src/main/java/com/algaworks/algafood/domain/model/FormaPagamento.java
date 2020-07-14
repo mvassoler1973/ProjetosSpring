@@ -25,7 +25,7 @@ public class FormaPagamento implements Serializable {
 	@EqualsAndHashCode.Include
 	private Long id;
 
-	@Column(name = "nome")
-	private String nome;
+	@Column(name = "descricao")
+	private String descricao;
 
 }
