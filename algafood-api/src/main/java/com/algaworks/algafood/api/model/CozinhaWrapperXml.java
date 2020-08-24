@@ -14,6 +14,7 @@ import lombok.NonNull;
 @Data
 public class CozinhaWrapperXml {
 
+	// Não utilizada =, mas deixar como exemplo de uso do XML
 	@JsonProperty("cozinha")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	@NonNull
