@@ -85,7 +85,6 @@ public class CozinhaControler {
 		} catch (EntidadeEmUsoException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-
 	}
 
 }
