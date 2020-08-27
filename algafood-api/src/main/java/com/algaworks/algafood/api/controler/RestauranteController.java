@@ -83,13 +83,12 @@ public class RestauranteController {
 	@PatchMapping("/{restauranteId}")
 	public ResponseEntity<?> atualizarParcial(@PathVariable(name = "restauranteId") Long restauranteId,
 			@RequestBody Map<String, Object> campos) {
-
-		Optional<Restaurante> restauranteAtual = this.restauranteRep.findById(restauranteId);
-		if (restauranteAtual.isPresent()) {
+		Restaurante restauranteAtual = restauranteRep.findById(restauranteId).orElse(null);
+		if (restauranteAtual == null) {
 			return ResponseEntity.notFound().build();
 		}
-		merge(campos, restauranteAtual.get());
-		return this.atualizar(restauranteId, restauranteAtual.get());
+		merge(campos, restauranteAtual);
+		return this.atualizar(restauranteId, restauranteAtual);
 
 	}
 
