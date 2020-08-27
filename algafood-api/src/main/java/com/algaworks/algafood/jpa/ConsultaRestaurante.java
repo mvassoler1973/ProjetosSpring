@@ -16,7 +16,7 @@ public class ConsultaRestaurante {
 		ApplicationContext context = new SpringApplicationBuilder(AlgafoodApiApplication.class)
 				.web(WebApplicationType.NONE).run(args);
 		RestauranteRepository consulta = context.getBean(RestauranteRepository.class);
-		List<Restaurante> restaurantes = consulta.listar();
+		List<Restaurante> restaurantes = consulta.findAll();
 		restaurantes.forEach(r -> System.out.println(
 				"Id = " + r.getId() + " - Nome = " + r.getNome() + " - Cozinha = " + r.getCozinha().getNome()));
 	}

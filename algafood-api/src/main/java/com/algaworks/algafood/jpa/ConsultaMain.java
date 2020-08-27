@@ -16,7 +16,7 @@ public class ConsultaMain {
 		ApplicationContext context = new SpringApplicationBuilder(AlgafoodApiApplication.class)
 				.web(WebApplicationType.NONE).run(args);
 		CozinhaRepository consulta = context.getBean(CozinhaRepository.class);
-		List<Cozinha> cozinhas = consulta.listar();
+		List<Cozinha> cozinhas = consulta.findAll();
 		cozinhas.forEach(c -> System.out.println(c.getId() + " " + c.getNome()));
 
 	}

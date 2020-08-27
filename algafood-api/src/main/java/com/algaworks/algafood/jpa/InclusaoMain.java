@@ -20,8 +20,8 @@ public class InclusaoMain {
 		Cozinha cozinha2 = new Cozinha();
 		cozinha2.setNome("Mexicana");
 
-		cozinha.salvar(cozinha1);
-		cozinha.salvar(cozinha2);
+		cozinha.save(cozinha1);
+		cozinha.save(cozinha2);
 
 	}
 
