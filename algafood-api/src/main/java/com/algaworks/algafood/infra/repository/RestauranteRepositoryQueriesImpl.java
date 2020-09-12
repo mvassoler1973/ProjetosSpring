@@ -24,7 +24,7 @@ import com.algaworks.algafood.domain.repository.RestauranteRepositoryQueries;
 import com.algaworks.algafood.infra.repository.spec.RestauranteSpecs;
 
 @Repository
-public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
+public class RestauranteRepositoryQueriesImpl implements RestauranteRepositoryQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
