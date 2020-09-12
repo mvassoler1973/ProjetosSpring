@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
@@ -21,5 +22,11 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 	// :cozinhaId")
 	// Query foi passada para o arquivo orm.xml
 	List<Restaurante> consultarPorNomeIdCozinha(String nome, @Param("cozinhaId") Long cozinhaId);
+
+	Optional<Restaurante> findFirstRestauranteByNomeContaining(String nome);
+
+	List<Restaurante> findTop2ByNomeContaining(String nome);
+
+	int countByCozinhaId(Long cozinha);
 
 }
