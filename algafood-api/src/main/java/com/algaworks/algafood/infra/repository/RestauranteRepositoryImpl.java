@@ -2,6 +2,7 @@ package com.algaworks.algafood.infra.repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,7 +24,7 @@ import com.algaworks.algafood.domain.repository.RestauranteRepositoryQueries;
 import com.algaworks.algafood.infra.repository.spec.RestauranteSpecs;
 
 @Repository
-public class RestauranteRepositoryQueriesImpl implements RestauranteRepositoryQueries {
+public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
@@ -32,25 +33,32 @@ public class RestauranteRepositoryQueriesImpl implements RestauranteRepositoryQu
 	@Lazy
 	private RestauranteRepository restauranteRepository;
 
-	/*
-	 * @Override public List<Restaurante> find(String nome, BigDecimal taxaInicial,
-	 * BigDecimal taxaFinal) { var jpql = new StringBuilder(); var parametros = new
-	 * HashMap<String, Object>();
-	 * 
-	 * jpql.append("from Restaurante where 0 = 0 "); if
-	 * (StringUtils.hasLength(nome)) { jpql.append(" and nome like :nome ");
-	 * parametros.put("nome", "%" + nome + "%"); } if (taxaInicial != null) {
-	 * jpql.append(" and taxaFrete >= :taxaInicial "); parametros.put("taxaInicial",
-	 * taxaInicial); } if (taxaFinal != null) {
-	 * jpql.append(" and taxaFrete <= :taxaFinal "); parametros.put("taxaFinal",
-	 * taxaFinal); } TypedQuery<Restaurante> query =
-	 * this.manager.createQuery(jpql.toString(), Restaurante.class);
-	 * parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
-	 * return query.getResultList(); }
-	 */
-
 	@Override
 	public List<Restaurante> find(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
+		var jpql = new StringBuilder();
+		var parametros = new HashMap<String, Object>();
+
+		jpql.append("from Restaurante where 0 = 0 ");
+		if (StringUtils.hasLength(nome)) {
+			jpql.append(" and nome like :nome ");
+			parametros.put("nome", "%" + nome + "%");
+		}
+		if (taxaInicial != null) {
+			jpql.append(" and taxaFrete >= :taxaInicial ");
+			parametros.put("taxaInicial", taxaInicial);
+		}
+		if (taxaFinal != null) {
+			jpql.append(" and taxaFrete <= :taxaFinal ");
+			parametros.put("taxaFinal", taxaFinal);
+		}
+		TypedQuery<Restaurante> query = this.manager.createQuery(jpql.toString(), Restaurante.class);
+		parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Restaurante> findComNomeTaxaId(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal,
+			Long cozinhaId) {
 		CriteriaBuilder builder = this.manager.getCriteriaBuilder(); // instância a fábrica de criteria
 		CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
 		Root<Restaurante> root = criteria.from(Restaurante.class); // equivale from Restaurante
@@ -68,6 +76,11 @@ public class RestauranteRepositoryQueriesImpl implements RestauranteRepositoryQu
 			// Predicate taxaFinalPredicate =
 			// builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFinal);
 			predicates.add(builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFinal));
+		}
+		if (cozinhaId != null) {
+			// Predicate taxaFinalPredicate =
+			// builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFinal);
+			predicates.add(builder.equal(root.get("cozinha.id"), cozinhaId));
 		}
 		// criteria.where(nomePredicate, taxaInicialPredicate, taxaFinalPredicate);
 		criteria.where(predicates.toArray(new Predicate[0]));

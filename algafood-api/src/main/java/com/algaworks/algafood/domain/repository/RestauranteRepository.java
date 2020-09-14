@@ -18,15 +18,15 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 
 	List<Restaurante> findByNomeContainingAndCozinhaId(String nome, Long cozinhaId);
 
-	// @Query("from Restaurante where nome like %:nome% and cozinha.id =
-	// :cozinhaId")
-	// Query foi passada para o arquivo orm.xml
-	List<Restaurante> consultarPorNomeIdCozinha(String nome, @Param("cozinhaId") Long cozinhaId);
-
 	Optional<Restaurante> findFirstRestauranteByNomeContaining(String nome);
 
 	List<Restaurante> findTop2ByNomeContaining(String nome);
 
 	int countByCozinhaId(Long cozinha);
+
+	// @Query("from Restaurante where nome like %:nome% and cozinha.id =
+	// :cozinhaId")
+	// Query foi passada para o arquivo orm.xml
+	List<Restaurante> consultarPorNomeIdCozinha(String nome, @Param("cozinhaId") Long cozinhaId);
 
 }
