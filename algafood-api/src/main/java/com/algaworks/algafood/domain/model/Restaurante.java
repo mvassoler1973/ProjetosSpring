@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,18 +48,22 @@ public class Restaurante implements Serializable {
 	@Column(name = "taxa_frete", precision = 5, scale = 2)
 	private BigDecimal taxaFrete;
 
+	@JsonIgnore
 	@CreationTimestamp
 	@Column(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 
+	@JsonIgnore
 	@UpdateTimestamp
 	@Column(name = "data_atualizacao", nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
 
+	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 
-	@ManyToOne
+	@JsonIgnoreProperties("hibernateLazyInitializer")
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_cozinha")
 	private Cozinha cozinha;
 
