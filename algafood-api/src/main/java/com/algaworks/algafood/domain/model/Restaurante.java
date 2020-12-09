@@ -42,7 +42,7 @@ public class Restaurante implements Serializable {
 	@EqualsAndHashCode.Include
 	private Long id;
 
-	@Column(name = "nome")
+	@Column(name = "nome", nullable = false)
 	private String nome;
 
 	@Column(name = "taxa_frete", precision = 5, scale = 2)

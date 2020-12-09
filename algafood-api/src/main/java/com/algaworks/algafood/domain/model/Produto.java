@@ -34,7 +34,7 @@ public class Produto implements Serializable {
 	@Column(name = "descricao", nullable = false)
 	private String descricao;
 
-	@Column(name = "preco", length = 14, precision = 2, nullable = false)
+	@Column(name = "preco", precision = 14, scale = 2, nullable = false)
 	private BigDecimal preco;
 
 	@Column(name = "ativo", nullable = false)

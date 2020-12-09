@@ -43,7 +43,7 @@ public class Usuario implements Serializable {
 	private String senha;
 
 	@CreationTimestamp
-	@Column(nullable = false, columnDefinition = "datetime")
+	@Column(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 
 	@ManyToMany
