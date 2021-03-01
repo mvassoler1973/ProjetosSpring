@@ -93,13 +93,13 @@ public class RestauranteController {
 		return atualizar(restauranteId, restauranteAtual);
 	}
 
-	private void validate(Restaurante restaurante String objectName) {
-		BeanPropertyBindingResult beanPropertyBindingResult = new BeanPropertyBindingResult(restaurante, objectName);
-		this.smartValidator.validate(restaurante, beanPropertyBindingResult);
-		if(beanPropertyBindingResult.hasErrors()) {
-			throw new ValidacaoException(bindingResult);
+	private void validate(Restaurante rest, String objectName) {
+		BeanPropertyBindingResult beanPropertyBindingResult = new BeanPropertyBindingResult(rest, objectName);
+		this.smartValidator.validate(rest, beanPropertyBindingResult);
+		if (beanPropertyBindingResult.hasErrors()) {
+			throw new ValidacaoException(beanPropertyBindingResult);
 		}
-		
+
 	}
 
 	private void merge(Map<String, Object> camposOrigem, Restaurante restauranteDestino, HttpServletRequest request) {
