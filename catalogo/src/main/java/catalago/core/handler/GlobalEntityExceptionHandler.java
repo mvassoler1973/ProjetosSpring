@@ -45,12 +45,6 @@ public abstract class GlobalEntityExceptionHandler extends ResponseEntityExcepti
 		this.messageLocale = messageLocale;
 	}
 
-	/**
-	 * Handler para tratar BadRequestException, lançada pelos serviços.
-	 *
-	 * @param ex a exception
-	 * @return ResponseEntity como 400 e contendo mensagem no corpo do response.
-	 */
 	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<List<ErrorDetailsDTO>> badRequestException(final BadRequestException ex) {
 		log.info("M=BadRequestException", ex);
@@ -61,12 +55,6 @@ public abstract class GlobalEntityExceptionHandler extends ResponseEntityExcepti
 		return ResponseEntity.status(BAD_REQUEST).body(Arrays.asList(error));
 	}
 
-	/**
-	 * Handler para tratar ForbidenException, lançada pelos serviços.
-	 *
-	 * @param ex a exception
-	 * @return ResponseEntity como 403 e contendo mensagem no corpo do response.
-	 */
 	@ExceptionHandler(ForbidenException.class)
 	public ResponseEntity<List<ErrorDetailsDTO>> forbidenException(final ForbidenException ex) {
 		log.info("M=ForbidenException", ex);
@@ -77,13 +65,6 @@ public abstract class GlobalEntityExceptionHandler extends ResponseEntityExcepti
 		return ResponseEntity.status(FORBIDDEN).body(Arrays.asList(error));
 	}
 
-	/**
-	 * Handler para tratar EntityNotFoundException, lançada pelo CrudService se o id
-	 * passado no find não existe.
-	 *
-	 * @param ex a exception
-	 * @return ResponseEntity como 404 e contendo mensagem no corpo do response.
-	 */
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<List<ErrorDetailsDTO>> entityNotFoundException(final EntityNotFoundException ex) {
 		log.info("M=EntityNotFoundException", ex);
