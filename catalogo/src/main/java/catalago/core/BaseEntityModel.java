@@ -14,7 +14,7 @@ import javax.persistence.PreUpdate;
 public abstract class BaseEntityModel implements BaseEntity<Long> {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, unique = true, nullable = false)
 	private Long id;
 

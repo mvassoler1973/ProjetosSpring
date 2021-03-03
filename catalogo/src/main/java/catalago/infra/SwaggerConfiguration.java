@@ -21,7 +21,7 @@ public class SwaggerConfiguration {
 	@Bean
 	public Docket produtoApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("catalago"))
-				.paths(PathSelectors.regex("/api.*")).build().apiInfo(metaInfo());
+				.paths(PathSelectors.regex("/products-ms.*")).build().apiInfo(metaInfo());
 
 	}
 
@@ -31,4 +31,5 @@ public class SwaggerConfiguration {
 				new ArrayList<VendorExtension>());
 		return apiInfo;
 	}
+
 }

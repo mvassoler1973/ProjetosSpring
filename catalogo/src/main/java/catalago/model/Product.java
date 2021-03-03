@@ -8,13 +8,19 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import catalago.core.BaseEntityModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "products")
-@Data
-@EqualsAndHashCode
 public class Product extends BaseEntityModel implements Serializable {
 
 	private static final long serialVersionUID = 7294916655911434399L;

@@ -3,24 +3,24 @@ package catalago.business;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import catalago.core.constants.ValidationConstants;
-import catalago.core.exception.EntityNotFoundException;
-import catalago.core.locale.MessageLocale;
+import catalago.core.exception.EntidadeEmUsoException;
+import catalago.core.exception.ProductsNaoEncontradaException;
 import catalago.dto.ProductDTO;
 import catalago.mapper.ProductMapper;
 import catalago.model.Product;
 import catalago.repository.ProductRepository;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
 @Data
 public class ProductBusiness {
 
@@ -30,17 +30,15 @@ public class ProductBusiness {
 	@Autowired
 	private ProductMapper mapper;
 
-	@Autowired
-	private MessageLocale message;
-
 	public Product getProductById(Long id) {
 		try {
 			return this.repository.findById(id).get();
+		} catch (DataIntegrityViolationException e) {
+			throw new EntidadeEmUsoException(String.format(ValidationConstants.MSG_PRODUTO_EM_USO, id));
+		} catch (NoSuchElementException e) {
+			throw new ProductsNaoEncontradaException(String.format(ValidationConstants.MSG_PRODUTO_NAO_ENCONTRADO, id));
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw new EntityNotFoundException(
-					message.validationMessageSource(ValidationConstants.REGISTER_NOT_FOUND_CUSTOM).replace("{table}",
-							"Produto"));
+			throw new ProductsNaoEncontradaException(String.format(ValidationConstants.MSG_PRODUTO_NAO_ENCONTRADO, id));
 		}
 
 	}

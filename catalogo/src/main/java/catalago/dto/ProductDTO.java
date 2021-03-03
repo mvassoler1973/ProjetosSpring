@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import catalago.core.constants.ValidationConstants;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,17 +23,17 @@ public class ProductDTO {
 	@ApiModelProperty(hidden = true)
 	private Long id;
 
-	@NotEmpty(message = ValidationConstants.FIELD_REQUIRED)
-	@Size(max = 100, message = ValidationConstants.FIELD_MAX_LENGHT)
+	@NotEmpty(message = "Nome do produto é requerido.")
+	@Size(max = 100, message = "Tamanho do nome do produto excedeu a 100 caracteres.")
 	@JsonProperty("name")
 	private String name;
 
-	@NotEmpty(message = ValidationConstants.FIELD_REQUIRED)
-	@Size(max = 500, message = ValidationConstants.FIELD_MAX_LENGHT)
+	@NotEmpty(message = "Descrição do produto é requerida.")
+	@Size(max = 500, message = "Tamanho da descrição do produto excedeu a 500 caracteres.")
 	@JsonProperty("description")
 	private String description;
 
-	@NotNull(message = ValidationConstants.FIELD_REQUIRED)
+	@NotNull(message = "Preço do produto é requerido.")
 	@JsonProperty("price")
 	private BigDecimal price;
 
